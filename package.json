@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && gulp serve",
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",
@@ -19,5 +21,22 @@
   "bugs": {
     "url": "https://github.com/plushevy/quick-start-clean-project/issues"
   },
-  "homepage": "https://github.com/plushevy/quick-start-clean-project#readme"
+  "homepage": "https://github.com/plushevy/quick-start-clean-project#readme",
+  "devDependencies": {
+    "autoprefixer": "^9.1.1",
+    "browser-sync": "^2.24.6",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-csso": "^3.0.1",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-posthtml": "^3.0.4",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-svgstore": "^6.1.1",
+    "gulp-webp": "^3.0.0",
+    "posthtml-include": "^1.2.0",
+    "run-sequence": "^2.2.1"
+  }
 }
