@@ -122,7 +122,7 @@ gulp.task('copy', function () {
         .pipe(gulp.dest(config.src + config.html.dest));
 });
 
-gulp.task('del', function () {
+gulp.task('clean', function () {
     return del('build');
 });
 
@@ -142,7 +142,7 @@ gulp.task('serve', function () {
     });
 
     gulp.watch(config.src + config.style.watch, ['style']);
-    gulp.watch(config.src + config.html.src, ['html']]);
+    gulp.watch(config.src + config.html.src, ['html']);
 
 });
 
