@@ -32,7 +32,8 @@ var config = {
         dest: '/css/'
     },
     fonts: {
-        src: '/fonts/**.{woff,woff2}',
+        // src: '/fonts/**.{woff,woff2}',
+        src: '/fonts/**',
         dest: '/fonts/',
 
     },
@@ -80,7 +81,19 @@ gulp.task('images', function () {
             imagemin.jpegtran({
                 progressive: true
             }),
-            imagemin.svgo()
+            imagemin.svgo({
+                plugins: [{
+                        removeViewBox: false
+                    },
+                    {
+                        cleanupIDs: false
+                    }
+                ]
+            }),
+            {
+                verbose: true
+            }
+
         ]))
         .pipe(gulp.dest(config.src + config.img.dest));
 });
@@ -119,7 +132,7 @@ gulp.task('copy', function () {
         ], {
             base: config.src
         })
-        .pipe(gulp.dest(config.src + config.html.dest));
+        .pipe(gulp.dest(config.build + config.html.dest));
 });
 
 gulp.task('clean', function () {
