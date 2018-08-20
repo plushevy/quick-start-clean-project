@@ -7,4 +7,5 @@
 *.sublime*
 build/
 node_modules/
+.vscode/
 Thumbs.db
