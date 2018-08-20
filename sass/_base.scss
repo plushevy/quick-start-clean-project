@@ -1,0 +1,57 @@
+body {
+  min-width: 320px;
+  font-size: 17px;
+  line-height: 24px;
+  font: $font-base;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+ul,
+h1,
+h2,
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+  color: $link-color;
+  &:hover {
+    color: $link-color-hover;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  &:active {
+    color: $link-color-visited;
+  }
+}
+
+button {
+  outline: none;
+  border: none;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(-2000px);
+  }
+  70% {
+    transform: translateY(30px);
+  }
+  90% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
