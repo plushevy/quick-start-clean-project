@@ -1,0 +1,14 @@
+AddDefaultCharset UTF-8
+php_value default_charset "utf-8"
+
+php_flag display_errors 1
+
+
+Options +FollowSymLinks
+RewriteEngine On
+
+#RewriteCond %{HTTP_HOST} ^www.site.ru$ [NC]
+#RewriteRule ^(.*)$ http://site.ru/$1 [R=301,L]
+
+#RewriteCond %{SERVER_PORT} !^443$
+#RewriteRule ^(.*)$ https://site.ru/$1 [R=301,L]

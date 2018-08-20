@@ -156,8 +156,9 @@ gulp.task('copy', function () {
   return gulp.src([
       config.src + config.fonts.src,
       config.src + config.img.src,
-      config.src + config.js.src,
-      config.src + config.html.src,
+      // config.src + config.js.src,
+      // config.src + config.html.src,
+      config.src + '/.htaccessc',
       config.src + '/robots.txt'
     ], {
       base: config.src
