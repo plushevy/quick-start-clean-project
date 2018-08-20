@@ -24,8 +24,7 @@ var concat = require('gulp-concat');
 //<include src="build/img/sprite.svg"></include>
 //</div>
 
-//<include src = "/emplates/header.html"></include>
-//<include src="templates/footer.html"></include>
+
 
 var config = {
   src: '.',
@@ -77,10 +76,7 @@ gulp.task('style', function () {
     .pipe(plumber())
     .pipe(sass())
     .pipe(postcss([
-      autoprefixer({
-        browsers: ['> 0.1%'],
-        cascade: false
-      })
+      autoprefixer()
     ]))
     .pipe(gulp.dest(config.build + config.style.dest))
     .pipe(minify())
