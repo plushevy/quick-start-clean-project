@@ -178,7 +178,7 @@ gulp.task('serve', function () {
   gulp.watch(config.src + config.style.watch, function () {
     setTimeout(function () {
       gulp.start('style');
-    }, 100);
+    }, 1000);
   });
   gulp.watch(config.src + config.html.src, ['html']);
   gulp.watch(config.src + config.templates.src, ['html']);
