@@ -126,7 +126,7 @@ gulp.task('webp', function () {
     .pipe(webp({
       quality: 90
     }))
-    .pipe(gulp.dest(config.src + config.img.dest));
+    .pipe(gulp.dest(config.build + config.img.dest));
 });
 
 gulp.task('sprite', function () {
