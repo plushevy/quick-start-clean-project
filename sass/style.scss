@@ -1,13 +1,14 @@
 @import "normalize";
 @import "variables";
-@import "mixins";
 @import "fonts";
+@import "mixins";
 @import "base";
-
+@import "blocks/header";
+@import "blocks/footer";
 h1 {
-    color: red;
+  color: green;
 }
 
 b {
-    color: blue;
+  color: blue;
 }

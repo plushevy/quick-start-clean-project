@@ -1,0 +1,17 @@
+.page-header {
+  color: red;
+  font-size: 2rem;
+  &__wrapper {}
+}
+
+@media #{$tablet-widths} {
+  .page-header {
+    &__wrapper {}
+  }
+}
+
+@media #{$desktop-widths} {
+  .page-header {
+    &__wrapper {}
+  }
+}

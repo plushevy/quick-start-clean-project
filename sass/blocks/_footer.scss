@@ -1,0 +1,16 @@
+.page-footer {
+  color: blue;
+  &__wrapper {}
+}
+
+@media #{$tablet-widths} {
+  .page-footer {
+    &__wrapper {}
+  }
+}
+
+@media #{$desktop-widths} {
+  .page-footer {
+    &__wrapper {}
+  }
+}
