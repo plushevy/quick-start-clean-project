@@ -49,10 +49,10 @@ var config = {
   js: {
     src: '/js/**',
     dest: '/js/',
-    files: {
-      "jquery-3.3.1": "/js/jquery-3.3.1.js",
-      "main.js": "/js/main.js"
-    }
+    files: [
+      "js/jquery-3.3.1.js",
+      "js/main.js"
+    ]
   },
   css: {
     src: '/css/*',
@@ -86,7 +86,7 @@ gulp.task('style', function () {
 });
 
 gulp.task('js', function () {
-  return gulp.src(config.src + config.js.src)
+  return gulp.src(config.js.files)
     .pipe(sourcemaps.init())
     .pipe(concat('scripts.min.js'))
     .pipe(uglify())
