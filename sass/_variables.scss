@@ -1,8 +1,14 @@
+// resolution
 $mobile-widths-only: "(max-width: 767px)";
 $tablet-widths: "(min-width: 768px)";
 $desktop-widths: "(min-width: 1150px)";
 $retina: "(min-resolution: 144dpi)",
 "(min-resolution: 1.5dppx)";
+// calc-paddings
+$calc-mobile: calc((100% - 260px) / 2);
+$calc-tablet: calc((100% - 668px) / 2);
+$calc-desktop: calc((100% - 1050px) / 2);
+// colors
 $bg: #f1f1f1;
 $bg-index-intro: #f9f9f9;
 $bg-page-intro: #f1f1f1;
@@ -15,9 +21,13 @@ $theme-color: #63d1bb;
 $theme-color-active: #bde3dd;
 $theme-link-color: #62d1ba;
 $theme-link-color-invalid: #f0b1b1;
-$calc-mobile: calc((100% - 260px) / 2);
-$calc-tablet: calc((100% - 668px) / 2);
-$calc-desktop: calc((100% - 1050px) / 2);
-// $font-base: 15px/24px "Open Sans", Verdana, sans-serif;
-// $font-light: 15px/24px "Open Sans Light", Verdana, sans-serif;
-// $font-bold: 15px/24px "Open Sans Bold", Verdana, sans-serif;
+// main font
+$font-base: 15px/24px 400 "Ubuntu",
+Verdana,
+sans-serif;
+$font-light: 15px/24px 300 "Ubuntu",
+Verdana,
+sans-serif;
+$font-bold: 15px/24px 700 "Ubuntu",
+Verdana,
+sans-serif;

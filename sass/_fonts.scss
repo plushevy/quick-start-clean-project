@@ -16,3 +16,23 @@
 //   font-weight: 700;
 //   src: url("../fonts/opensansbold.woff2") format(woff2), url("../fonts/opensansbold.woff") format(woff);
 // }
+@font-face {
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Ubuntu/Ubuntu-Regular.ttf") format(ttf);
+}
+
+@font-face {
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/Ubuntu/Ubuntu-Light.ttf") format(ttf);
+}
+
+@font-face {
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/Ubuntu/Ubuntu-Bold.ttf") format(ttf);
+}
