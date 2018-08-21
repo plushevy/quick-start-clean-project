@@ -74,6 +74,7 @@ gulp.task('style', function () {
   gulp.src(config.src + config.style.src)
     //из-за бага с plumber тут return нет
     .pipe(plumber())
+    .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(postcss([
       autoprefixer()
@@ -81,6 +82,7 @@ gulp.task('style', function () {
     .pipe(gulp.dest(config.build + config.style.dest))
     .pipe(minify())
     .pipe(rename('style.min.css'))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(config.build + config.style.dest))
     .pipe(server.stream());
 });
