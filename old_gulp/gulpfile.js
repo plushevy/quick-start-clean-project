@@ -1,27 +1,29 @@
-"use strict";
+'use strict';
 
-var gulp = require("gulp");
-var plumber = require("gulp-plumber");
-var sourcemap = require("gulp-sourcemaps");
-var sass = require("gulp-sass");
-var postcss = require("gulp-postcss");
-var autoprefixer = require("autoprefixer");
-var server = require("browser-sync").create();
-var csso = require("gulp-csso");
-var rename = require("gulp-rename");
-var imagemin = require("gulp-imagemin");
-var webp = require("gulp-webp");
-var svgstore = require("gulp-svgstore");
-var posthtml = require("gulp-posthtml");
-var include = require("posthtml-include");
-var del = require("del");
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+var plumber = require('gulp-plumber');
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
+var server = require('browser-sync').create();
+var minify = require('gulp-csso');
+var rename = require('gulp-rename');
+var imagemin = require('gulp-imagemin');
+var webp = require('gulp-webp');
+var svgstore = require('gulp-svgstore');
+var posthtml = require('gulp-posthtml');
+var include = require('posthtml-include');
+var run = require('run-sequence');
+var del = require('del');
+var sourcemaps = require('gulp-sourcemaps');
 var uglify = require("gulp-uglify");
-
+var concat = require('gulp-concat');
 
 // установить SVGsprite инлайново в любом файле
 //<div style="display:none">
 //<include src="build/img/sprite.svg"></include>
 //</div>
+
 
 
 var config = {
@@ -45,13 +47,12 @@ var config = {
     dest: '/fonts/',
   },
   js: {
-    files: [
-      './js/jquery-3.3.1.js',
-      './js/main.js'
-    ],
-    dest: '/js/',
     src: '/js/**',
-
+    dest: '/js/',
+    files: [
+      "js/jquery-3.3.1.js",
+      "js/main.js"
+    ]
   },
   css: {
     src: '/css/*',
@@ -69,34 +70,34 @@ var config = {
   }
 };
 
-gulp.task("css", function () {
-  return gulp.src(config.src + config.style.src)
+gulp.task('style', function () {
+  gulp.src(config.src + config.style.src)
+    //из-за бага с plumber тут return нет
     .pipe(plumber())
-    .pipe(sourcemap.init())
+    .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(postcss([
       autoprefixer()
     ]))
-    .pipe(csso())
-    .pipe(rename("style.min.css"))
-    .pipe(sourcemap.write("."))
+    .pipe(gulp.dest(config.build + config.style.dest))
+    .pipe(minify())
+    .pipe(rename('style.min.css'))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(config.build + config.style.dest))
     .pipe(server.stream());
 });
 
-gulp.task("js", function () {
+gulp.task('js', function () {
   return gulp.src(config.js.files)
-    // если нужны sourcemaps надо установить npm i gulp-sourcemap --save-dev
-    // .pipe(sourcemaps.init())
+    .pipe(sourcemaps.init())
+    .pipe(concat('scripts.min.js'))
     .pipe(uglify())
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    // .pipe(sourcemaps.write())
-    .pipe(gulp.dest(config.build + config.js.dest));
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest(config.build + config.js.dest))
+    .pipe(server.stream());
 });
 
-gulp.task("images", function () {
+gulp.task('images', function () {
   return gulp.src(config.src + config.img.watch)
     .pipe(imagemin([
       imagemin.optipng({
@@ -113,12 +114,16 @@ gulp.task("images", function () {
             cleanupIDs: false
           }
         ]
-      })
+      }),
+      {
+        verbose: true
+      }
+
     ]))
     .pipe(gulp.dest(config.src + config.img.dest));
 });
 
-gulp.task("webp", function () {
+gulp.task('webp', function () {
   return gulp.src(config.src + config.img.webp)
     .pipe(webp({
       quality: 90
@@ -126,16 +131,16 @@ gulp.task("webp", function () {
     .pipe(gulp.dest(config.build + config.img.dest));
 });
 
-gulp.task("sprite", function () {
+gulp.task('sprite', function () {
   return gulp.src(config.src + config.svgsprite.src)
     .pipe(svgstore({
-      inlineSvg: true
+      inLineSvg: true
     }))
-    .pipe(rename("sprite.svg"))
+    .pipe(rename('sprite.svg'))
     .pipe(gulp.dest(config.build + config.svgsprite.dest));
 });
 
-gulp.task("html", function () {
+gulp.task('html', function () {
   return gulp.src(config.src + config.html.src)
     .pipe(posthtml([
       include()
@@ -144,17 +149,14 @@ gulp.task("html", function () {
     .pipe(server.stream());
 });
 
-gulp.task("clean", function () {
-  return del("build");
-});
-
+// копирование
 gulp.task('copy', function () {
   return gulp.src([
       config.src + config.fonts.src,
       config.src + config.img.src,
       // config.src + config.js.src,
       // config.src + config.html.src,
-      config.src + '/.htaccess',
+      config.src + '/.htaccessc',
       config.src + '/robots.txt'
     ], {
       base: config.src
@@ -162,26 +164,35 @@ gulp.task('copy', function () {
     .pipe(gulp.dest(config.build + config.html.dest));
 });
 
-gulp.task("server", function () {
+gulp.task('clean', function () {
+  return del('build');
+});
+
+gulp.task('serve', function () {
   server.init({
-    server: config.build,
-    notify: false,
-    open: true,
-    cors: true,
-    ui: false
+    server: config.build
   });
 
-  gulp.watch(config.src + config.style.watch, gulp.series("css"));
-  gulp.watch(config.src + config.js.src, gulp.series("js", "refresh"));
-  gulp.watch(config.src + config.svgsprite.src, gulp.series("sprite", "html", "refresh"));
-  gulp.watch(config.src + config.html.src, gulp.series("html", "refresh"));
-  gulp.watch(config.src + config.templates.src, gulp.series("html", "refresh"));
+  // от креша после сохраниения в scss
+  gulp.watch(config.src + config.style.watch, function () {
+    setTimeout(function () {
+      gulp.start('style');
+    }, 1000);
+  });
+  gulp.watch(config.src + config.html.src, ['html']);
+  gulp.watch(config.src + config.templates.src, ['html']);
+  gulp.watch(config.src + config.js.src, ['js']);
+
 });
 
-gulp.task("refresh", function (done) {
-  server.reload();
-  done();
+gulp.task('build', function (done) {
+  run(
+    'clean',
+    'copy',
+    'style',
+    'sprite',
+    'html',
+    'js',
+    done
+  );
 });
-
-gulp.task("build", gulp.series("clean", "copy", "css", "js", "sprite", "html"));
-gulp.task("start", gulp.series("build", "server"));
