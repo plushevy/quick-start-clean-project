@@ -1,21 +1,22 @@
 "use strict";
 
-var gulp = require("gulp");
-var plumber = require("gulp-plumber");
-var sourcemap = require("gulp-sourcemaps");
-var sass = require("gulp-sass");
-var postcss = require("gulp-postcss");
-var autoprefixer = require("autoprefixer");
-var server = require("browser-sync").create();
-var csso = require("gulp-csso");
-var rename = require("gulp-rename");
-var imagemin = require("gulp-imagemin");
-var webp = require("gulp-webp");
-var svgstore = require("gulp-svgstore");
-var posthtml = require("gulp-posthtml");
-var include = require("posthtml-include");
-var del = require("del");
-var uglify = require("gulp-uglify");
+let gulp = require("gulp");
+let plumber = require("gulp-plumber");
+let sourcemap = require("gulp-sourcemaps");
+let sass = require("gulp-sass");
+let postcss = require("gulp-postcss");
+let autoprefixer = require("autoprefixer");
+let server = require("browser-sync").create();
+let csso = require("gulp-csso");
+let rename = require("gulp-rename");
+let imagemin = require("gulp-imagemin");
+let webp = require("gulp-webp");
+let svgstore = require("gulp-svgstore");
+let posthtml = require("gulp-posthtml");
+let include = require("posthtml-include");
+let del = require("del");
+let uglify = require("gulp-uglify");
+let concat = require("gulp-concat");
 
 
 // установить SVGsprite инлайново в любом файле
@@ -24,7 +25,7 @@ var uglify = require("gulp-uglify");
 //</div>
 
 
-var config = {
+let config = {
   src: '.',
   build: './build',
   html: {
@@ -89,9 +90,12 @@ gulp.task("js", function () {
     // если нужны sourcemaps надо установить npm i gulp-sourcemap --save-dev
     // .pipe(sourcemaps.init())
     .pipe(uglify())
-    .pipe(rename({
-      suffix: '.min'
-    }))
+    // rename просто переименовыыет файлы
+    // .pipe(rename({
+    //   suffix: '.min'
+    // }))
+    // concat - сжимает в один
+    .pipe(concat('main.min.js'))
     // .pipe(sourcemaps.write())
     .pipe(gulp.dest(config.build + config.js.dest));
 });
