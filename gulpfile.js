@@ -73,12 +73,14 @@ let config = {
 gulp.task("css", function () {
   return gulp.src(config.src + config.style.src)
     .pipe(plumber())
+    // если не нужны sourcemap - выключаем
     .pipe(sourcemap.init())
     .pipe(sass())
     .pipe(postcss([
       autoprefixer()
     ]))
     .pipe(csso())
+    // просто переименовывыет в min, если надо обьединить - concat
     .pipe(rename("style.min.css"))
     .pipe(sourcemap.write("."))
     .pipe(gulp.dest(config.build + config.style.dest))
