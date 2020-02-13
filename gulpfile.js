@@ -7,7 +7,6 @@ let sass = require("gulp-sass");
 let postcss = require("gulp-postcss");
 let autoprefixer = require("autoprefixer");
 let server = require("browser-sync").create();
-let csso = require("gulp-csso");
 let rename = require("gulp-rename");
 let imagemin = require("gulp-imagemin");
 let webp = require("gulp-webp");
@@ -17,6 +16,7 @@ let include = require("posthtml-include");
 let del = require("del");
 let uglify = require("gulp-uglify");
 let concat = require("gulp-concat");
+let minifyCleanCss = require("gulp-clean-css"); // новый minify вместо csso
 
 
 // установить SVGsprite инлайново в любом файле
@@ -76,12 +76,13 @@ gulp.task("css", function () {
     // если не нужны sourcemap - выключаем
     .pipe(sourcemap.init())
     .pipe(sass())
+    .pipe(concat("style.min.css"))
     .pipe(postcss([
       autoprefixer()
     ]))
-    .pipe(csso())
-    // просто переименовывыет в min, если надо обьединить - concat
-    .pipe(rename("style.min.css"))
+    .pipe(minifyCleanCss({
+      level: 2
+    }))
     .pipe(sourcemap.write("."))
     .pipe(gulp.dest(config.build + config.style.dest))
     .pipe(server.stream());
